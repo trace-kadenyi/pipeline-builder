@@ -1,16 +1,25 @@
+import { forwardRef } from "react";
 import { Handle } from "reactflow";
 import "../styles/nodes.css";
 
-export const BaseNode = ({
-  id,
-  title,
-  fields = [],
-  handles = [],
-  children,
-  style = {},
-}) => {
+export const BaseNode = forwardRef(function BaseNode(
+  {
+    id,
+    title,
+    fields = [],
+    handles = [],
+    children,
+    style = {},
+    className = "",
+  },
+  ref,
+) {
   return (
-    <div className="base-node" style={style}>
+    <div
+      ref={ref}
+      className={`base-node${className ? ` ${className}` : ""}`}
+      style={style}
+    >
       <div className="base-node-header">
         <span className="base-node-title">{title}</span>
       </div>
@@ -33,7 +42,7 @@ export const BaseNode = ({
       ))}
     </div>
   );
-};
+});
 
 const FieldRenderer = ({ field }) => {
   const {
@@ -43,6 +52,8 @@ const FieldRenderer = ({ field }) => {
     onChange,
     options = [],
     placeholder = "",
+    rows = 3,
+    inputRef,
   } = field;
 
   return (
@@ -58,14 +69,16 @@ const FieldRenderer = ({ field }) => {
         </select>
       ) : type === "textarea" ? (
         <textarea
+          ref={inputRef}
           className="field-input field-textarea"
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          rows={3}
+          rows={rows}
         />
       ) : (
         <input
+          ref={inputRef}
           className="field-input"
           type="text"
           value={value}
