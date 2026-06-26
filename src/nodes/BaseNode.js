@@ -1,4 +1,5 @@
-import { Handle, Position } from "reactflow";
+import { Handle } from "reactflow";
+import "../styles/nodes.css";
 
 export const BaseNode = ({
   id,
@@ -6,31 +7,21 @@ export const BaseNode = ({
   fields = [],
   handles = [],
   children,
+  style = {},
 }) => {
   return (
-    <div
-      style={{
-        width: 200,
-        border: "1px solid black",
-        padding: "10px",
-        borderRadius: "4px",
-        background: "white",
-      }}
-    >
-      {/* Header */}
-      <div style={{ marginBottom: "8px", fontWeight: "bold" }}>
-        <span>{title}</span>
+    <div className="base-node" style={style}>
+      <div className="base-node-header">
+        <span className="base-node-title">{title}</span>
       </div>
 
-      {/* Fields */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+      <div className="base-node-body">
         {fields.map((field) => (
           <FieldRenderer key={field.name} field={field} />
         ))}
         {children}
       </div>
 
-      {/* Handles */}
       {handles.map((handle) => (
         <Handle
           key={handle.id}
@@ -55,17 +46,10 @@ const FieldRenderer = ({ field }) => {
   } = field;
 
   return (
-    <label
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "2px",
-        fontSize: "13px",
-      }}
-    >
-      {label && <span>{label}</span>}
+    <label className="base-node-field">
+      {label && <span className="field-label">{label}</span>}
       {type === "select" ? (
-        <select value={value} onChange={onChange}>
+        <select className="field-input" value={value} onChange={onChange}>
           {options.map((opt) => (
             <option key={opt} value={opt}>
               {opt}
@@ -74,6 +58,7 @@ const FieldRenderer = ({ field }) => {
         </select>
       ) : type === "textarea" ? (
         <textarea
+          className="field-input field-textarea"
           value={value}
           onChange={onChange}
           placeholder={placeholder}
@@ -81,6 +66,7 @@ const FieldRenderer = ({ field }) => {
         />
       ) : (
         <input
+          className="field-input"
           type="text"
           value={value}
           onChange={onChange}
