@@ -1,4 +1,3 @@
-// ui.js
 // Displays the drag-and-drop UI
 // --------------------------------------------------
 
@@ -10,6 +9,11 @@ import { InputNode } from "./nodes/InputNode";
 import { LLMNode } from "./nodes/LlmNode";
 import { OutputNode } from "./nodes/OutputNode";
 import { TextNode } from "./nodes/TextNode";
+import { FilterNode } from "./nodes/FilterNode";
+import { TransformNode } from "./nodes/TransformNode";
+import { APINode } from "./nodes/ApiNode";
+import { MergeNode } from "./nodes/MergeNode";
+import { NoteNode } from "./nodes/NoteNode";
 
 import "reactflow/dist/style.css";
 
@@ -20,6 +24,11 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  filter: FilterNode,
+  transform: TransformNode,
+  api: APINode,
+  merge: MergeNode,
+  note: NoteNode,
 };
 
 const selector = (state) => ({
