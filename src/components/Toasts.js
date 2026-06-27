@@ -7,7 +7,7 @@ const TOAST_EXIT_DURATION = 300;
 /**
  * Smoothly animates a custom toast before removing it.
  */
-const dismissToast = (id) => {
+export const dismissToast = (id) => {
   const toastElement = document.getElementById(`toast-${id}`);
 
   // Remove immediately if the toast has already unmounted.
@@ -29,7 +29,7 @@ const dismissToast = (id) => {
 /**
  * Custom toast shown after a successful pipeline analysis.
  */
-export const PipelineToast = ({ t, num_nodes, num_edges, is_dag }) => (
+export const PipelineToast = ({ t, num_nodes, num_edges, is_dag, onClose }) => (
   <div className="toast-card" id={`toast-${t.id}`}>
     <div className="toast-header">
       <span className="toast-title">Pipeline Analysis</span>
@@ -58,7 +58,7 @@ export const PipelineToast = ({ t, num_nodes, num_edges, is_dag }) => (
     <div className="toast-footer">
       <button
         className="toast-close-btn"
-        onClick={() => dismissToast(t.id)}
+        onClick={() => onClose(t.id)}
         aria-label="Close notification"
       >
         Close
@@ -70,7 +70,7 @@ export const PipelineToast = ({ t, num_nodes, num_edges, is_dag }) => (
 /**
  * Reusable toast for validation and error messages.
  */
-export const MessageToast = ({ t, message }) => (
+export const MessageToast = ({ t, message, onClose }) => (
   <div className="message-toast" id={`toast-${t.id}`}>
     <div className="message-toast-body">
       <div className="message-toast-icon">
@@ -83,7 +83,7 @@ export const MessageToast = ({ t, message }) => (
     <div className="message-toast-footer">
       <button
         className="message-toast-close-btn"
-        onClick={() => dismissToast(t.id)}
+        onClick={() => onClose(t.id)}
         aria-label="Close notification"
       >
         Close

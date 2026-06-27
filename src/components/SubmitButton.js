@@ -1,8 +1,9 @@
+import { useRef, useState } from "react";
 import { useStore } from "../store";
 import { Play } from "lucide-react";
 import toast from "react-hot-toast";
 import "../assets/styles/submit.css";
-import { MessageToast, PipelineToast } from "./Toasts";
+import { dismissToast, MessageToast, PipelineToast } from "./Toasts";
 
 // Backend endpoint for pipeline analysis
 const API_URL = "http://localhost:8000/pipelines/parse";
@@ -24,24 +25,48 @@ const MESSAGES = {
   ANALYSIS_ERROR: "Unable to analyze the pipeline. Please try again.",
 };
 
-/**
- * Displays a custom toast that remains visible until dismissed.
- */
-const showPersistentToast = (renderToast) =>
-  toast.custom(renderToast, { duration: Infinity });
-
 export const SubmitButton = () => {
+  // Tracks the currently displayed persistent toast.
+  const activeToastId = useRef(null);
+
+  // Controls whether the Run button is enabled.
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  // Displays a custom toast that remains visible until dismissed.
+  const showPersistentToast = (renderToast) => {
+    activeToastId.current = toast.custom(renderToast, {
+      duration: Infinity,
+    });
+
+    setIsButtonDisabled(true);
+  };
+
+  // handle close toast
+  const handleToastClose = (toastId) => {
+    activeToastId.current = null;
+    setIsButtonDisabled(false);
+    dismissToast(toastId);
+  };
+
   /**
    * Sends the current pipeline to the backend and displays
    * the analysis results in a custom toast.
    */
   const handleSubmit = async () => {
+    if (activeToastId.current) {
+      return;
+    }
+
     const { nodes, edges } = useStore.getState();
 
     // Prevent sending an empty pipeline.
     if (nodes.length === 0) {
       showPersistentToast((t) => (
-        <MessageToast t={t} message={MESSAGES.EMPTY_PIPELINE} />
+        <MessageToast
+          t={t}
+          message={MESSAGES.EMPTY_PIPELINE}
+          onClose={handleToastClose}
+        />
       ));
 
       return;
@@ -77,6 +102,7 @@ export const SubmitButton = () => {
           num_nodes={num_nodes}
           num_edges={num_edges}
           is_dag={is_dag}
+          onClose={handleToastClose}
         />
       ));
     } catch (error) {
@@ -87,7 +113,9 @@ export const SubmitButton = () => {
           ? MESSAGES.CONNECTION_ERROR
           : MESSAGES.ANALYSIS_ERROR;
 
-      showPersistentToast((t) => <MessageToast t={t} message={message} />);
+      showPersistentToast((t) => (
+        <MessageToast t={t} message={message} onClose={handleToastClose} />
+      ));
     }
   };
 
@@ -96,6 +124,7 @@ export const SubmitButton = () => {
       <button
         className="submit-btn"
         onClick={handleSubmit}
+        disabled={isButtonDisabled}
         aria-label="Run pipeline analysis"
       >
         <Play size={14} fill="white" aria-hidden="true" />

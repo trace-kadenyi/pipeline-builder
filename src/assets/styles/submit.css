@@ -36,6 +36,15 @@
   transform: scale(0.97);
 }
 
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit-btn:disabled:hover {
+  background: #6366f1;
+}
+
 /* =========================
    Shared Animation
 ========================= */
