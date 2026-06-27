@@ -1,4 +1,4 @@
-import "./styles/toolbar.css";
+import "../assets/styles/toolbar.css";
 
 export const DraggableNode = ({ type, label }) => {
   const onDragStart = (event, nodeType) => {

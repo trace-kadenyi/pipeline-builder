@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { Handle } from "reactflow";
-import "../styles/nodes.css";
+import "../../assets/styles/nodes.css";
 
 export const BaseNode = forwardRef(function BaseNode(
   {

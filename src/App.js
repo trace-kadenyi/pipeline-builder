@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
-import { PipelineToolbar } from "./PipelineToolbar";
-import { PipelineUI } from "./PipelineUI";
-import { SubmitButton } from "./SubmitButton";
+import { PipelineToolbar } from "./components/PipelineToolbar";
+import { PipelineUI } from "./components/PipelineUI";
+import { SubmitButton } from "./components/SubmitButton";
 
 function App() {
   return (
