@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useStore } from "../store";
 import { Play } from "lucide-react";
 import toast from "react-hot-toast";
 import "../assets/styles/submit.css";
 import { dismissToast, MessageToast, PipelineToast } from "./Toasts";
+import { PIPELINE_CHANGED_EVENT } from "../utils/events";
 
 // Backend endpoint for pipeline analysis
 const API_URL = "http://localhost:8000/pipelines/parse";
@@ -47,6 +48,21 @@ export const SubmitButton = () => {
     setIsButtonDisabled(false);
     dismissToast(toastId);
   };
+
+  // Automatically dismiss the current analysis whenever the pipeline changes.
+  useEffect(() => {
+    const handlePipelineChange = () => {
+      if (activeToastId.current) {
+        handleToastClose(activeToastId.current);
+      }
+    };
+
+    window.addEventListener(PIPELINE_CHANGED_EVENT, handlePipelineChange);
+
+    return () => {
+      window.removeEventListener(PIPELINE_CHANGED_EVENT, handlePipelineChange);
+    };
+  }, []);
 
   /**
    * Sends the current pipeline to the backend and displays

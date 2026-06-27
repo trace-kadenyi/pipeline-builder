@@ -5,6 +5,7 @@ import {
   applyEdgeChanges,
   MarkerType,
 } from "reactflow";
+import { notifyPipelineChanged } from "./utils/events";
 
 export const useStore = create((set, get) => ({
   nodes: [],
@@ -19,6 +20,7 @@ export const useStore = create((set, get) => ({
     return `${type}-${newIDs[type]}`;
   },
   addNode: (node) => {
+    notifyPipelineChanged();
     set({
       nodes: [...get().nodes, node],
     });
@@ -29,11 +31,13 @@ export const useStore = create((set, get) => ({
     });
   },
   onEdgesChange: (changes) => {
+    notifyPipelineChanged();
     set({
       edges: applyEdgeChanges(changes, get().edges),
     });
   },
   onConnect: (connection) => {
+    notifyPipelineChanged();
     set({
       edges: addEdge(
         {
