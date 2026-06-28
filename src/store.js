@@ -31,7 +31,6 @@ export const useStore = create((set, get) => ({
     });
   },
   onEdgesChange: (changes) => {
-    notifyPipelineChanged();
     set({
       edges: applyEdgeChanges(changes, get().edges),
     });
