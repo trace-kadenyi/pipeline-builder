@@ -1,3 +1,7 @@
+// NoteNode — a non-functional annotation node for the canvas.
+// Has no handles — cannot be connected to other nodes.
+// Used to leave comments or labels on the pipeline diagram.
+
 import { useState } from "react";
 import { BaseNode } from "./BaseNode";
 

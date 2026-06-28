@@ -1,3 +1,8 @@
+// TextNode — a dynamic text template node.
+// Supports {{variable}} syntax to create input handles on the fly.
+// Auto-resizes in width and height as the user types.
+// Each detected variable gets its own target handle on the left.
+
 import { useState, useRef, useEffect, useLayoutEffect, useMemo } from "react";
 import { Position, useUpdateNodeInternals } from "reactflow";
 import { BaseNode } from "./BaseNode";

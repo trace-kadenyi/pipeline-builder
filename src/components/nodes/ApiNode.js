@@ -1,3 +1,7 @@
+// APINode — represents an external HTTP request in the pipeline.
+// Accepts a method and URL.
+// Has two outputs: Response (success) and Error (failure).
+
 import { useState } from "react";
 import { Position } from "reactflow";
 import { BaseNode } from "./BaseNode";

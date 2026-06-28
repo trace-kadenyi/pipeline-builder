@@ -1,3 +1,15 @@
+/**
+ * BaseNode — the shared template for all pipeline nodes.
+ *
+ * Instead of each node managing its own layout, handles, and fields,
+ * they all delegate that responsibility here. A node only needs to
+ * describe what makes it unique (title, fields, handles) and BaseNode
+ * handles the rendering.
+ *
+ * forwardRef is used so parent components (like TextNode) can attach
+ * a ref to the outer div for DOM measurement purposes.
+ */
+
 import { forwardRef } from "react";
 import { Handle } from "reactflow";
 import "../../assets/styles/nodes.css";
@@ -6,11 +18,11 @@ export const BaseNode = forwardRef(function BaseNode(
   {
     id,
     title,
-    fields = [],
-    handles = [],
-    children,
-    style = {},
-    className = "",
+    fields = [], // array of field configs to render in the body
+    handles = [], // array of handle configs for connection points
+    children, // optional custom content below fields
+    style = {}, // optional style overrides for the outer wrapper
+    className = "", // optional extra class names
   },
   ref,
 ) {
@@ -25,12 +37,15 @@ export const BaseNode = forwardRef(function BaseNode(
       </div>
 
       <div className="base-node-body">
+        {/* Render each field using FieldRenderer based on its type */}
         {fields.map((field) => (
           <FieldRenderer key={field.name} field={field} />
         ))}
+        {/* Any custom JSX passed as children renders here */}
         {children}
       </div>
 
+      {/* Render ReactFlow connection handles — prefixed with node id to ensure uniqueness */}
       {handles.map((handle) => (
         <Handle
           key={handle.id}
@@ -44,6 +59,13 @@ export const BaseNode = forwardRef(function BaseNode(
   );
 });
 
+/**
+ * FieldRenderer — renders the correct input element based on field.type.
+ *
+ * Accepts: 'select', 'textarea', or defaults to 'text' input.
+ * inputRef is forwarded to the DOM element for cases where the parent
+ * needs direct access (e.g. TextNode measuring textarea height).
+ */
 const FieldRenderer = ({ field }) => {
   const {
     label,

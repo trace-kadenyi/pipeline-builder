@@ -1,3 +1,6 @@
+// FilterNode — routes data down one of two paths based on a condition.
+// Has one input and two outputs: Match and No Match.
+
 import { useState } from "react";
 import { Position } from "reactflow";
 import { BaseNode } from "./BaseNode";

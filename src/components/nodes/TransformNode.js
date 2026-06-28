@@ -1,3 +1,7 @@
+// TransformNode — applies a string operation to its input.
+// Operations include: Uppercase, Lowercase, Trim, Reverse, JSON Parse/Stringify.
+// Simple 1-in 1-out node.
+
 import { useState } from "react";
 import { Position } from "reactflow";
 import { BaseNode } from "./BaseNode";

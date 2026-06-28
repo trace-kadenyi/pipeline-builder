@@ -1,3 +1,6 @@
+// MergeNode — combines two inputs into one output using a separator.
+// Useful for joining text from multiple upstream nodes.
+
 import { useState } from "react";
 import { Position } from "reactflow";
 import { BaseNode } from "./BaseNode";
