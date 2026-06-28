@@ -7,10 +7,10 @@ import { useState, useRef, useEffect, useLayoutEffect, useMemo } from "react";
 import { Position, useUpdateNodeInternals } from "reactflow";
 import { BaseNode } from "./BaseNode";
 
-const VARIABLE_REGEX = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
+export const VARIABLE_REGEX = /\{\{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\}\}/g;
 
 // Pure function — takes text, returns array of unique variable names found
-function extractVariables(text) {
+export function extractVariables(text) {
   const names = [];
   let match;
   while ((match = VARIABLE_REGEX.exec(text)) !== null) {
